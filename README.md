@@ -17,7 +17,8 @@
 ```																														
 
 Repository base-code is forked from : https://github.com/ShikharSahu/NasaApodDesktopWallpaperSetter
-This is a learning-to-code mini project for me, getting something thats already made up to a certain level, and trying to expand on it as I learn how it works, gradually expanding it.
+
+This is a learning-to-code mini project for me, getting something thats already made up to a certain level, and trying to expand on it as I learn how it works.
 
 ### Changes made:
 
@@ -70,6 +71,7 @@ This componets is to be used within a different batch file, specifically for it,
 
 ### Set Automatic Wallpaper changer
 (as instructed by :  https://github.com/ShikharSahu/NasaApodDesktopWallpaperSetter) 
+
 You can refer to [this](https://www.geeksforgeeks.org/schedule-a-python-script-to-run-daily/) article to setup automatic Wallpaper changer.
 
 1. Make sure you have edited the batch file and it is working.
