@@ -1,21 +1,22 @@
 # Nasa Apod
 
 (banner made at https://www.patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=NASA%20APOD%20%0Awallpapers)
+
 ```
-███╗   ██╗ █████╗ ███████╗ █████╗      █████╗ ██████╗  ██████╗ ██████╗            
-████╗  ██║██╔══██╗██╔════╝██╔══██╗    ██╔══██╗██╔══██╗██╔═══██╗██╔══██╗           
-██╔██╗ ██║███████║███████╗███████║    ███████║██████╔╝██║   ██║██║  ██║           
-██║╚██╗██║██╔══██║╚════██║██╔══██║    ██╔══██║██╔═══╝ ██║   ██║██║  ██║           
-██║ ╚████║██║  ██║███████║██║  ██║    ██║  ██║██║     ╚██████╔╝██████╔╝           
-╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝      ╚═════╝ ╚═════╝            
-                                                                                  
+███╗   ██╗ █████╗ ███████╗ █████╗      █████╗ ██████╗  ██████╗ ██████╗
+████╗  ██║██╔══██╗██╔════╝██╔══██╗    ██╔══██╗██╔══██╗██╔═══██╗██╔══██╗
+██╔██╗ ██║███████║███████╗███████║    ███████║██████╔╝██║   ██║██║  ██║
+██║╚██╗██║██╔══██║╚════██║██╔══██║    ██╔══██║██╔═══╝ ██║   ██║██║  ██║
+██║ ╚████║██║  ██║███████║██║  ██║    ██║  ██║██║     ╚██████╔╝██████╔╝
+╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝      ╚═════╝ ╚═════╝
+
 ██╗    ██╗ █████╗ ██╗     ██╗     ██████╗  █████╗ ██████╗ ███████╗██████╗ ███████╗
 ██║    ██║██╔══██╗██║     ██║     ██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝
 ██║ █╗ ██║███████║██║     ██║     ██████╔╝███████║██████╔╝█████╗  ██████╔╝███████╗
 ██║███╗██║██╔══██║██║     ██║     ██╔═══╝ ██╔══██║██╔═══╝ ██╔══╝  ██╔══██╗╚════██║
 ╚███╔███╔╝██║  ██║███████╗███████╗██║     ██║  ██║██║     ███████╗██║  ██║███████║
  ╚══╝╚══╝ ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝
-```																														
+```
 
 Repository base-code is forked from : https://github.com/ShikharSahu/NasaApodDesktopWallpaperSetter
 
@@ -23,13 +24,13 @@ This is a learning-to-code mini project for me, getting something thats already 
 
 ### Changes made:
 
-- Added a menu page , its better visually and easuer to manage everything and expand on features. 
+- Added a menu page , its better visually and easuer to manage everything and expand on features.
 - Buttons for script execution, API set/get , image save , path set.
 - Use of threading to avoid crashing when having the menu open with a component running.
-- minor chages to manual_wallpaper_setter and wallpaper_setter. 
+- minor chages to manual_wallpaper_setter and wallpaper_setter.
 - remade the API_utility to work better with the other three components.
 - there's a list of a few more TO-DOs gradually being added.
-
+- Use of API through an API config json file, instead of wihtin the main code.
 
 ### Features
 
@@ -39,11 +40,22 @@ This is a learning-to-code mini project for me, getting something thats already 
 
 ## Run the Program
 
-On the cmd, make sure the cloned repo is open.
-Run:
+- cd to the cloned repo folder
+
+- Within the src folder, create an api_config.json like:
+
+```
+{
+  "APOD_API_KEY": "<Add-API-String-Here>"
+}
+```
+
+- Run:
+
 ```
 python -m src.menu
 ```
+
 The main menu window opens and you choose between manual (date selected) image pick or Automatically get Image of the day
 
 ### Using a batch file
@@ -52,26 +64,33 @@ Edit the batch file named "APOD_run.bat" as you see fit, setting the paths for p
 If you want to run the batch from elsewhere, create a shortcut to move around, leaving batch in place, or change the paths accordingly.
 
 Note :
-+ Make sure you can access internet through python on your device.
 
+- Make sure you can access internet through python on your device.
 
 ### Standalone Manual Image selection (no Menu window)
-In the command promt, with the cloned repo open in it, run:
+
+In the command prompt, with the cloned repo open in it, run:
+
 ```
 python -m manual_wallpaper_setter
 ```
+
 (or press the respective button from the menu window)
 
 ### Automatic set image of the Day (no Menu window)
-In the command promt, with the cloned repo open in it, run:
+
+In the command prompt, with the cloned repo open in it, run:
+
 ```
 python -m wallpaper_setter
 ```
+
 (or press the respective button from the menu window)
-This componets is to be used within a different batch file, specifically for it, to establish scheduled automatic wallpaper changing, as instructed bellow.
+This components is to be used within a different batch file, specifically for it, to establish scheduled automatic wallpaper changing, as instructed bellow.
 
 ### Set Automatic Wallpaper changer
-(as instructed by :  https://github.com/ShikharSahu/NasaApodDesktopWallpaperSetter) 
+
+(as instructed by : https://github.com/ShikharSahu/NasaApodDesktopWallpaperSetter)
 
 You can refer to [this](https://www.geeksforgeeks.org/schedule-a-python-script-to-run-daily/) article to setup automatic Wallpaper changer.
 
@@ -84,14 +103,13 @@ You can refer to [this](https://www.geeksforgeeks.org/schedule-a-python-script-t
 
 ### Note:
 
-+ You are only allowed to make 30 API calls per hours. This is due to the demo key. You can bypass this by generating a real key from [here](https://api.nasa.gov/) and updating it in wallpaper_utility.py
-+ Saved images are stored in "C:\Users\ [USERNAME]\Pictures\NasaApod"
+- You are only allowed to make 30 API calls per hours. This is due to the demo key. You can bypass this by generating a real key from [here](https://api.nasa.gov/) and updating it in wallpaper_utility.py
+- Saved images are stored in "C:\Users\ [USERNAME]\Pictures\NasaApod"
 
 ## References:
 
-+ NASA APOD : https://apod.nasa.gov/apod/
+- NASA APOD : https://apod.nasa.gov/apod/
 
-+ NASA APOD API: https://github.com/nasa/apod-api
+- NASA APOD API: https://github.com/nasa/apod-api
 
-+ Original baseline source-code repository : https://github.com/ShikharSahu/NasaApodDesktopWallpaperSetter
-
+- Original baseline source-code repository : https://github.com/ShikharSahu/NasaApodDesktopWallpaperSetter

@@ -15,9 +15,9 @@ root.title("NASA APOD Wallpaper Setter")
 # File where the API key is stored
 CONFIG_FILE = "src/api_config.json"
 
-# Process/thread to manage the auto and manual wallpaper setters
-auto_setter_thread = None
-manual_setter_thread = None
+# Subprocess for managing the manual and auto wallpaper setters
+auto_setter_process = None
+manual_setter_process = None
 
 # Output Panel for Terminal Logs (read-only, positioned at the bottom of the window)
 output_panel = tk.Text(
@@ -48,41 +48,63 @@ def save_api_key(api_key):
     set_api_key(api_key)  # Update the global key in API_utility.py
 
 
-# Function to launch the manual wallpaper setter in a separate thread
+# Function to capture and display subprocess output in the output panel
+def capture_output(process):
+    while True:
+        output = process.stdout.readline()
+        if output == "" and process.poll() is not None:
+            break
+        if output:
+            write_output(output.strip())
+
+
+# Function to launch the manual wallpaper setter as a separate process and capture its output
 def launch_manual_wallpaper_setter():
-    global manual_setter_thread
+    global manual_setter_process
+    if manual_setter_process is None or manual_setter_process.poll() is not None:
+        # Start the manual wallpaper setter subprocess
+        manual_setter_process = subprocess.Popen(
+            ["python", "-m", "src.manual_wallpaper_setter"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        # Start a thread to capture and display the output
+        threading.Thread(target=capture_output, args=(manual_setter_process,)).start()
 
-    # Define the function that will start the manual wallpaper setter
-    def run_manual_wallpaper_setter():
-        subprocess.run(["python", "-m", "src.manual_wallpaper_setter"])
 
-    # Start the manual wallpaper setter in a new thread
-    manual_setter_thread = threading.Thread(target=run_manual_wallpaper_setter)
-    manual_setter_thread.start()
-
-
-# Function to launch the auto wallpaper setter in a separate thread
+# Function to launch the auto wallpaper setter as a separate process and capture its output
 def launch_auto_wallpaper_setter():
-    global auto_setter_thread
-
-    # Define the function that will start the auto wallpaper setter
-    def run_auto_wallpaper_setter():
-        subprocess.run(["python", "-m", "src.wallpaper_setter"])
-
-    # Start the auto wallpaper setter in a new thread
-    auto_setter_thread = threading.Thread(target=run_auto_wallpaper_setter)
-    auto_setter_thread.start()
+    global auto_setter_process
+    if auto_setter_process is None or auto_setter_process.poll() is not None:
+        # Start the auto wallpaper setter subprocess
+        auto_setter_process = subprocess.Popen(
+            ["python", "-m", "src.wallpaper_setter"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        # Start a thread to capture and display the output
+        threading.Thread(target=capture_output, args=(auto_setter_process,)).start()
 
 
 # Function to close the wallpaper setters when the menu closes
 def on_menu_close():
-    global manual_setter_thread, auto_setter_thread
-    if manual_setter_thread and manual_setter_thread.is_alive():
-        print("Manual wallpaper setter is still running. Closing...")
-        manual_setter_thread.join(timeout=1)
-    if auto_setter_thread and auto_setter_thread.is_alive():
-        print("Auto wallpaper setter is still running. Closing...")
-        auto_setter_thread.join(timeout=1)
+    global manual_setter_process, auto_setter_process
+    # Terminate the manual wallpaper setter if it is running
+    if manual_setter_process and manual_setter_process.poll() is None:
+        print("Closing manual wallpaper setter...")
+        manual_setter_process.terminate()  # Gracefully terminate the process
+        manual_setter_process.wait()  # Wait for it to exit
+        print("Manual wallpaper setter closed.")
+
+    # Terminate the auto wallpaper setter if it is running
+    if auto_setter_process and auto_setter_process.poll() is None:
+        print("Closing auto wallpaper setter...")
+        auto_setter_process.terminate()  # Gracefully terminate the process
+        auto_setter_process.wait()  # Wait for it to exit
+        print("Auto wallpaper setter closed.")
+
     root.destroy()
 
 
